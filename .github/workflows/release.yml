@@ -25,9 +25,10 @@ jobs:
           New-Item -ItemType Directory dist | Out-Null
           Copy-Item target/release/nosleep.exe dist/nosleep.exe
           Compress-Archive -Path dist/nosleep.exe, README.md, LICENSE -DestinationPath "dist/$name.zip"
-          Get-ChildItem dist -File | ForEach-Object {
+          $sums = Get-ChildItem dist -File | ForEach-Object {
             "$((Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower())  $($_.Name)"
-          } | Out-File dist/SHA256SUMS.txt -Encoding ascii
+          }
+          $sums | Out-File dist/SHA256SUMS.txt -Encoding ascii
 
       - uses: actions/upload-artifact@v4
         with:

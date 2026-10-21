@@ -112,7 +112,7 @@ pub fn balloon(title: &str, body: &str) {
     }
     let mut nid = base_nid(h as HWND);
     nid.uFlags = NIF_INFO_;
-    nid.dwInfoFlags = NIIF_INFO;
+    nid.dwInfoFlags = NIIF_NONE; // the emoji in the title is the icon
     copy_into(&mut nid.szInfoTitle, title);
     copy_into(&mut nid.szInfo, body);
     unsafe {

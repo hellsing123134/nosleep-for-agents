@@ -193,10 +193,11 @@ impl Engine {
             self.lid_failed = false;
         }
 
-        let phase = if working {
-            Phase::Working
-        } else if waiting {
+        // An agent waiting for you matters more than others still working.
+        let phase = if waiting {
             Phase::Waiting
+        } else if working {
+            Phase::Working
         } else {
             Phase::Idle
         };
