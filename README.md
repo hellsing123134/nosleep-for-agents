@@ -3,20 +3,35 @@
 [![ci](https://github.com/hellsing123134/nosleep-for-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/hellsing123134/nosleep-for-agents/actions/workflows/ci.yml)
 [![release](https://img.shields.io/github/v/release/hellsing123134/nosleep-for-agents)](https://github.com/hellsing123134/nosleep-for-agents/releases/latest)
 
-**caffeinate for AI agents, on Windows.** Close your laptop, walk away, and let Claude Code /
-Codex / OpenCode keep working. nosleep keeps Windows awake only while your agents are actually
-busy, ignores the lid while they work, and pings your phone when an agent finishes or needs you.
+**caffeinate for AI agents, on Windows.** Close your laptop and let Claude Code / Codex /
+OpenCode keep working. When they're done, your laptop goes back to sleeping normally, and
+your phone tells you the agent finished or is waiting for your approval.
 
 ![nosleep demo: an agent works, asks for permission, finishes; real Windows toasts and tray](docs/demo.gif)
 
-- 🟠 **Agent-aware.** Watches agent processes *and everything they spawn* (builds, tests, servers)
-  plus Claude Code / Codex hooks. Nothing is running → Windows sleeps as usual.
-- 💻 **Lid closed? Still working.** Temporarily sets the power plan's lid-close action to
-  "do nothing" and restores it afterwards, even after a crash.
+- 🟠 **Only while agents work.** Watches agent processes *and everything they spawn* (builds,
+  tests, servers) plus Claude Code / Codex hooks. Nothing busy → Windows sleeps as usual.
+- 💻 **Ignores the lid, then puts it back.** While an agent works, the lid-close action is set
+  to "do nothing". Afterwards your own setting comes back, even if nosleep crashed.
 - 🔔 **Finished / needs you.** A Windows notification and an optional phone push via
   [ntfy](https://ntfy.sh) when a turn completes or an agent waits for permission.
 - 🪫 **Battery guard.** On battery below 20% it steps back and lets the laptop sleep.
-- 🪶 **Tiny.** One ~1.7 MB Rust binary, no runtime, no admin rights, no telemetry.
+- 🪶 **Small.** One ~1.5 MB Rust exe: no installer, no runtime, no telemetry.
+
+## Doesn't Windows already do this?
+
+Partly. You can set **Power Options → "When I close the lid" → Do nothing** (Settings →
+Power & battery → Lid & power button controls on Windows 11 24H2+), and PowerToys Awake keeps
+the PC from idling to sleep. The catch: both are manual. They stay on until you switch them
+back (or until a timer you had to guess runs out). Forget once, and the laptop runs all night
+in your bag, hot and draining.
+
+| | lid "Do nothing" | PowerToys Awake | nosleep |
+|---|:---:|:---:|:---:|
+| keeps working with the lid closed | ✅ | ❌ | ✅ |
+| only while an agent is busy, then back to normal | ❌ | ❌ | ✅ |
+| tells you when the agent is done or needs you | ❌ | ❌ | ✅ |
+| lets go on low battery | ❌ | ❌ | ✅ |
 
 ## Install
 
