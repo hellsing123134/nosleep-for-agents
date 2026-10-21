@@ -1,5 +1,8 @@
 # No Sleep for Agents
 
+[![ci](https://github.com/hellsing123134/nosleep-for-agents/actions/workflows/ci.yml/badge.svg)](https://github.com/hellsing123134/nosleep-for-agents/actions/workflows/ci.yml)
+[![release](https://img.shields.io/github/v/release/hellsing123134/nosleep-for-agents)](https://github.com/hellsing123134/nosleep-for-agents/releases/latest)
+
 **caffeinate for AI agents, on Windows.** Close your laptop, walk away, and let Claude Code /
 Codex / OpenCode keep working. nosleep keeps Windows awake only while your agents are actually
 busy, ignores the lid while they work, and pings your phone when an agent finishes or needs you.
@@ -14,6 +17,10 @@ busy, ignores the lid while they work, and pings your phone when an agent finish
 - 🪶 **Tiny.** One ~1.7 MB Rust binary, no runtime, no admin rights, no telemetry.
 
 ## Install
+
+Grab `nosleep.exe` from the [latest release](https://github.com/hellsing123134/nosleep-for-agents/releases/latest)
+and put it anywhere. It isn't code-signed yet, so SmartScreen may ask you to confirm ("More
+info → Run anyway"). Or build it yourself:
 
 ```bash
 cargo install --git https://github.com/hellsing123134/nosleep-for-agents
