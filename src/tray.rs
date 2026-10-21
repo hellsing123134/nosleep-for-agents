@@ -4,6 +4,7 @@
 use crate::engine::{Mode, Phase, SHARED};
 use crate::{config, power};
 use std::sync::atomic::{AtomicU32, AtomicUsize, Ordering::Relaxed};
+use std::sync::Mutex;
 use windows_sys::Win32::Foundation::*;
 use windows_sys::Win32::Graphics::Gdi::{CreateBitmap, DeleteObject};
 use windows_sys::Win32::System::LibraryLoader::GetModuleHandleW;
@@ -22,7 +23,6 @@ const NIF_MESSAGE_ICON_TIP: u32 = 1 | 2 | 4;
 const NIF_INFO_: u32 = 0x10;
 
 static HWND_: AtomicUsize = AtomicUsize::new(0);
-static ICON: AtomicUsize = AtomicUsize::new(0);
 static TASKBAR_CREATED: AtomicU32 = AtomicU32::new(0);
 
 fn w(s: &str) -> Vec<u16> {
@@ -36,8 +36,20 @@ fn copy_into(dst: &mut [u16], s: &str) {
     }
 }
 
-/// A filled, antialiased circle in the given colour.
+/// The dot icon for a colour, created on first use and reused (there are only a handful).
 fn dot_icon(rgb: u32) -> HICON {
+    static CACHE: Mutex<Vec<(u32, usize)>> = Mutex::new(Vec::new());
+    let mut cache = CACHE.lock().unwrap();
+    if let Some(&(_, h)) = cache.iter().find(|(c, _)| *c == rgb) {
+        return h as HICON;
+    }
+    let h = draw_dot(rgb);
+    cache.push((rgb, h as usize));
+    h
+}
+
+/// A filled, antialiased circle in the given colour.
+fn draw_dot(rgb: u32) -> HICON {
     unsafe {
         let s = GetSystemMetrics(SM_CXSMICON).max(16);
         let (c, r) = (s as f32 / 2.0 - 0.5, s as f32 / 2.0 - 1.5);
@@ -88,10 +100,6 @@ fn update_icon(h: HWND, op: u32) {
     copy_into(&mut nid.szTip, &tip);
     unsafe {
         Shell_NotifyIconW(op, &nid);
-        let old = ICON.swap(nid.hIcon as usize, Relaxed);
-        if old != 0 {
-            DestroyIcon(old as HICON);
-        }
     }
 }
 

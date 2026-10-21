@@ -7,6 +7,8 @@
 Codex / OpenCode keep working. nosleep keeps Windows awake only while your agents are actually
 busy, ignores the lid while they work, and pings your phone when an agent finishes or needs you.
 
+![nosleep demo: an agent works, asks for permission, finishes; real Windows toasts and tray](docs/demo.gif)
+
 - 🟠 **Agent-aware.** Watches agent processes *and everything they spawn* (builds, tests, servers)
   plus Claude Code / Codex hooks. Nothing is running → Windows sleeps as usual.
 - 💻 **Lid closed? Still working.** Temporarily sets the power plan's lid-close action to
@@ -50,6 +52,9 @@ ntfy_topic = nosleep-7f3a9c1e2b
 The dot tells you the state: 🟠 working · 🔴 waiting for you · 🟡 idle but staying awake (grace
 period) · ⚪ sleep allowed. Right-click for **Auto** / **Always awake** / **Off** and the
 **Keep working with the lid closed** toggle.
+
+Windows hides new tray icons under the `^` arrow. Drag the dot from there onto the taskbar to
+keep it in sight.
 
 ## CLI
 
